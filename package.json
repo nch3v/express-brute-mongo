@@ -4,7 +4,7 @@
   "description": "MongoDB store for express-brute.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "npx mocha"
   },
   "repository": {
     "type": "git",
@@ -14,13 +14,13 @@
   "license": "BSD",
   "devDependencies": {
     "expect.js": "~0.3.1",
-    "express": "~4.14.0",
+    "express": "^4.16.4",
     "express-brute": "~1.0.1",
     "mocha": "~3.1.2",
     "mongo-getdb": "~3.0.0"
   },
   "dependencies": {
-    "moment": "~2.13.0",
+    "moment": "^2.24.0",
     "xtend": "~2.1.1"
   }
 }
