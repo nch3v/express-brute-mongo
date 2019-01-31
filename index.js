@@ -17,12 +17,13 @@ MongoStore.prototype.set = function (key, value, lifetime, callback) {
   var _id = this.options.prefix+key;
   var expiration = lifetime ? moment().add(lifetime, 'seconds').toDate() : undefined;
 
-  this._collection.update({
+  this._collection.updateOne({
     _id: _id
   }, {
-    _id: _id,
-    data: value,
-    expires: expiration
+    $set: {
+        data: value,
+        expires: expiration
+    }
   }, {
     upsert: true
   }, function () {
@@ -40,7 +41,7 @@ MongoStore.prototype.get = function (key, callback) {
     } else {
       var data;
       if (doc && doc.expires < new Date()) {
-        collection.remove({ _id: _id }, {w: 0});
+        collection.deleteOne({ _id: _id }, {w: 0});
         return callback();
       }
       if (doc) {
@@ -55,7 +56,7 @@ MongoStore.prototype.get = function (key, callback) {
 
 MongoStore.prototype.reset = function (key, callback) {
   var _id = this.options.prefix+key;
-  this._collection.remove({ _id: _id }, function () {
+  this._collection.deleteOne({ _id: _id }, function () {
     typeof callback == 'function' && callback.apply(this, arguments);
   });
 };
